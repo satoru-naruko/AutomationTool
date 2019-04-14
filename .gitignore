@@ -259,3 +259,8 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/ShowMousePos/玉集め周回.json
+/ShowMousePos/clickPsoints2.json
+/ShowMousePos/clickPoints_rennsenntai.json
+/ShowMousePos/clickPoints2.json
+/clickPoints.json
