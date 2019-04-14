@@ -24,7 +24,7 @@ namespace Automation.Models.Tests
             int ey = 498;
 
             var bm = sc.OnCapture(sx, sy, ex - sx, ey - sy);
-            bm.Save(@"C:\Users\Owner\Pictures\Capture\TestBmp.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+            bm.Save(@"./\TestBmp.bmp", System.Drawing.Imaging.ImageFormat.Bmp);
             //Assert.Fail();
         }
     }
