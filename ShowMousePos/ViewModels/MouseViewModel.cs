@@ -108,7 +108,7 @@ namespace Automation.ViewModels
 
             Dispose = new DelegateCommand( () => Subscription?.Dispose() );
 
-            LoadPoints();
+            //LoadPoints();
 
             mousePositionModel.Start();
         }
