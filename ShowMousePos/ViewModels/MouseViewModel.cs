@@ -47,6 +47,8 @@ namespace Automation.ViewModels
 
             SaveCommand = new DelegateCommand(SavePoints);
 
+            LoadCommand = new DelegateCommand(LoadPoints);
+
             AddCommand = new DelegateCommand(
                 () => {
                     var id = Points.Count() + 1;
@@ -91,6 +93,8 @@ namespace Automation.ViewModels
                 {
                     Subscription?.Dispose();
 
+                    this.State = "実行中";
+
                     Subscription = this.Source.ObserveOnDispatcher().
                     Where(i => Points.Any(x => x.Coordinate.Id == i)).
                     Subscribe(
@@ -101,7 +105,12 @@ namespace Automation.ViewModels
                     }
                     ,
                     ex => Console.WriteLine("OnError({0})", ex.Message),
-                    () => Console.WriteLine("Completed()"));
+                    () =>
+                    {
+                        Console.WriteLine("Completed()");
+                        this.State = "停止中";
+                    } 
+                    );
                 },
                 CanExecute
             );
@@ -141,6 +150,7 @@ namespace Automation.ViewModels
 
         public DelegateCommand<object> ClickCommand { get; private set; }
         public DelegateCommand SaveCommand { get; private set; }
+        public DelegateCommand LoadCommand { get; private set; }
         public DelegateCommand DeleteCommand { get; private set; }
         public DelegateCommand StopCommand { get; private set; }
         public DelegateCommand AddCommand { get; private set; }
@@ -167,6 +177,7 @@ namespace Automation.ViewModels
             }
         }
 
+        
         private string state = "停止中";
         public string State
         {
@@ -232,6 +243,7 @@ namespace Automation.ViewModels
                 {
                     var jsonString = File.ReadAllText(dialog.FileName);
                     Coordinates = JsonConvert.DeserializeObject<List<Models.Coordinate>>(jsonString);
+                    Subscribe?.RaiseCanExecuteChanged();
                 }
                 else
                 {
