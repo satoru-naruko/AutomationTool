@@ -47,7 +47,11 @@ namespace Automation.ViewModels
 
             SaveCommand = new DelegateCommand(SavePoints);
 
-            LoadCommand = new DelegateCommand(LoadPoints);
+            LoadCommand = new DelegateCommand(
+                () => {
+                    LoadPoints();
+                }
+            );
 
             AddCommand = new DelegateCommand(
                 () => {
@@ -70,7 +74,7 @@ namespace Automation.ViewModels
                 }
             );
 
-            StopCommand = new DelegateCommand( () => Subscription?.Dispose());
+            StopCommand = new DelegateCommand( () => { State = "停止中"; Subscription?.Dispose(); });
 
             var mousemove = Observable.FromEvent<EventHandler<Models.MousePosition.MouseEventArgs>, Models.MousePosition.MouseEventArgs>(
                     h => (s, e) => h(e),
@@ -93,7 +97,7 @@ namespace Automation.ViewModels
                 {
                     Subscription?.Dispose();
 
-                    this.State = "実行中";
+                    State = "実行中";
 
                     Subscription = this.Source.ObserveOnDispatcher().
                     Where(i => Points.Any(x => x.Coordinate.Id == i)).
@@ -108,7 +112,7 @@ namespace Automation.ViewModels
                     () =>
                     {
                         Console.WriteLine("Completed()");
-                        this.State = "停止中";
+                        State = "停止中";
                     } 
                     );
                 },
