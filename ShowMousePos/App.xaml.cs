@@ -1,4 +1,7 @@
-﻿using MahApps.Metro;
+﻿using Automation.Views;
+using Prism.Ioc;
+using Prism.Modularity;
+using Prism.Unity;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,19 +10,27 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Automation
 {
     /// <summary>
     /// App.xaml の相互作用ロジック
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
-        private void Application_Startup(object sender, StartupEventArgs e)
+        protected override Window CreateShell()
         {
-            // Bootstrapperを起動する
-            new Bootstrapper().Run();
+            return Container.Resolve<Mouse>();
+        }
+        
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+        }
+
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            // Addするモジュール名は作成したものに変更
+            //moduleCatalog.AddModule<xxxx.xxxxModule>();
         }
     }
 

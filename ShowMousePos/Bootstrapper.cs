@@ -1,5 +1,6 @@
 ﻿using Automation.Views;
-using Microsoft.Practices.Unity;
+using Prism;
+using Prism.Ioc;
 using Prism.Unity;
 using System.Windows;
 
